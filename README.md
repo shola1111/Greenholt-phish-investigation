@@ -21,7 +21,7 @@ I opened the provided email sample in **Mozilla Thunderbird**. Using the "View S
 *   **Transfer Reference Number:** `09674321`
 *   **Originating IP Address:** `192[.]119[.]71[.]157`
 *   *Analysis:* The email used a generic greeting and requested a money transfer, which are classic social engineering tactics.
-*   ![view source](screenshot/ThGreenholt3.png)
+*   ![view source](screenshot/TheGreenholt3.png)
 
 ### 2. Infrastructure & Authentication Analysis
 I investigated the originating IP address and the domain's email authentication records to verify legitimacy.
