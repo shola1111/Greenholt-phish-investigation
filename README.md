@@ -13,7 +13,7 @@ A Sales Executive at Greenholt PLC reported a suspicious email from a known cust
 ---
 
 ## Investigation Steps
-
+![email overview](screenshot/TheGreenholt2.png)
 ### 1. Email Header & Artifact Extraction
 I opened the provided email sample in **Mozilla Thunderbird**. Using the "View Source" feature, I examined the raw email headers and body to extract key artifacts and identify red flags.
 *   **Sender Display Name:** `Mr James Jackson` (Impersonating a known customer).
@@ -21,6 +21,7 @@ I opened the provided email sample in **Mozilla Thunderbird**. Using the "View S
 *   **Transfer Reference Number:** `09674321`
 *   **Originating IP Address:** `192[.]119[.]71[.]157`
 *   *Analysis:* The email used a generic greeting and requested a money transfer, which are classic social engineering tactics.
+*   ![view source](screenshot/ThGreenholt3.png)
 
 ### 2. Infrastructure & Authentication Analysis
 I investigated the originating IP address and the domain's email authentication records to verify legitimacy.
@@ -28,17 +29,21 @@ I investigated the originating IP address and the domain's email authentication 
 *   **SPF Record Check:** I checked the return-path domain (`mutawamarine@mail[.]com`). The full SPF record is `v=spf1 include:spf.protection.outlook.com -all`. 
     *   *Note:* While an SPF record exists, the use of a lookalike domain (`mail.com` instead of the real company domain) indicates a spoofing attempt.
 *   **DMARC Lookup:** I performed a DMARC lookup for the return-path domain. The complete record is `v=DMARC1; p=quarantine; fo=1`.
+*   ![SMTP Filter](screenshot/Thgreenholt10.png)
 
 ### 3. Attachment Analysis (Static Analysis)
 The email contained an unsolicited attachment. I extracted it in a safe, isolated environment.
 *   **Attachment Name:** `SWT_#09674321____PDF__.CAB` (Using a `.CAB` extension to hide the true file type).
+*   ![attachment name](screenshot/TheGreenholt5.png)
 *   **SHA256 Hash Extraction:** Using the Linux command `sha256sum`, I generated the hash of the file:
     `2e91c533615a9bb8929ac4bb76707b2444597ce063d84a4b33525e25074fff3f`
+    ![sha256 result](screenshot/TheGreenholt7.png)
 *   **VirusTotal Investigation:** I submitted the SHA256 hash to VirusTotal.
     *   **File Size:** `400.26 KB`
     *   **Actual File Type:** **`RAR`** (A compressed archive file).
     *   *Analysis:* The attacker disguised a RAR archive as a PDF by renaming the extension to `.CAB`. This is a common evasion technique used to bypass email filters and trick users into extracting malware.
-
+    *   ![virustotal result](screenshot/TheGreenholt8.png)
+    *   ![virustotal result](screenshot/TheGreenholt9.png)
 ---
 
 ## Indicators of Compromise (IOCs)
